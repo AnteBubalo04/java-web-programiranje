@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Checkout')}">
+    <title>Talaria</title>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container mt-5">
+    <h2 class="section-title mb-4">Order <span>Summary</span></h2>
+
+    <div class="row g-5">
+
+
+        <div class="col-md-7">
+            <div style="border:1px solid var(--border);">
+
+
+                <div class="row py-2 px-4"
+                     style="border-bottom:1px solid var(--border);
+                            color:var(--text-muted);
+                            font-size:0.75rem;
+                            letter-spacing:1px;
+                            text-transform:uppercase;">
+                    <div class="col-6">Product</div>
+                    <div class="col-2 text-center">Qty</div>
+                    <div class="col-2 text-center">Price</div>
+                    <div class="col-2 text-center">Total</div>
+                </div>
+
+
+                <div th:each="entry : ${cartItems}"
+                     class="row py-3 px-4 align-items-center"
+                     style="border-bottom:1px solid var(--border);">
+                    <div class="col-6 d-flex align-items-center gap-3">
+                        <img th:src="${entry.key.imageUrl}"
+                             th:if="${entry.key.imageUrl != null}"
+                             style="width:50px; height:50px; object-fit:cover; filter:grayscale(20%);"
+                             alt=""/>
+                        <div>
+                            <p style="font-family:'Rajdhani',sans-serif; font-weight:700; margin:0;"
+                               th:text="${entry.key.name}"></p>
+                            <p style="color:var(--text-muted); font-size:0.8rem; margin:0;"
+                               th:text="${entry.key.category.name}"></p>
+                        </div>
+                    </div>
+                    <div class="col-2 text-center"
+                         style="color:var(--text-muted);"
+                         th:text="${entry.value}">
+                    </div>
+                    <div class="col-2 text-center"
+                         style="color:var(--text-muted);"
+                         th:text="${entry.key.price} + ' €'">
+                    </div>
+                    <div class="col-2 text-center"
+                         style="color:var(--accent); font-family:'Rajdhani',sans-serif; font-weight:700;"
+                         th:text="${#numbers.formatDecimal(itemTotals[entry.key.id], 1, 2)} + ' €'">
+                    </div>
+                </div>
+
+
+                <div class="row py-3 px-4">
+                    <div class="col-10 text-end"
+                         style="color:var(--text-muted); font-size:0.85rem;">
+                        Total:
+                    </div>
+                    <div class="col-2 text-center"
+                         style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.2rem; color:var(--accent);"
+                         th:text="${#numbers.formatDecimal(cartTotal, 1, 2)} + ' €'">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-5">
+            <div style="background:var(--surface); border:1px solid var(--border); padding:2rem;">
+
+                <form th:action="@{/checkout}" method="post">
+
+
+                    <h4 style="font-family:'Rajdhani',sans-serif; font-weight:700; margin-bottom:1.5rem;">
+                        Shipping Address
+                    </h4>
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name
+                        <input type="text" name="fullName" class="form-control"
+                               placeholder="John Doe" required/>
+                        </label>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Address
+                        <input type="text" name="address" class="form-control"
+                               placeholder="Street and number" required/>
+                        </label>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-7 mb-3">
+                            <label class="form-label">City
+                            <input type="text" name="city" class="form-control"
+                                   placeholder="Zagreb" required/>
+                            </label>
+                        </div>
+                        <div class="col-5 mb-3">
+                            <label class="form-label">Postal Code
+                            <input type="text" name="postalCode" class="form-control"
+                                   placeholder="10000" required/>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Country
+                        <input type="text" name="country" class="form-control"
+                               placeholder="Croatia" required/>
+                        </label>
+                    </div>
+
+
+                    <h4 style="font-family:'Rajdhani',sans-serif; font-weight:700; margin-bottom:1.5rem;
+                               border-top:1px solid var(--border); padding-top:1.5rem;">
+                        Payment Method
+                    </h4>
+
+
+                    <label style="display:block; padding:1rem; border:1px solid var(--border);
+                                  cursor:pointer; margin-bottom:0.75rem; transition: border-color 0.2s;"
+                           class="payment-option">
+                        <input type="radio"
+                               name="paymentMethod"
+                               value="CASH"
+                               checked
+                               style="margin-right:0.75rem;"/>
+                        <span style="font-family:'Rajdhani',sans-serif; font-weight:700;">
+                            💵 Cash on Delivery
+                        </span>
+                        <p style="color:var(--text-muted); font-size:0.8rem; margin:0.3rem 0 0 1.5rem;">
+                            Pay when your order arrives
+                        </p>
+                    </label>
+
+
+                    <label style="display:block; padding:1rem; border:1px solid var(--border);
+                                  cursor:pointer; margin-bottom:1.5rem; transition: border-color 0.2s;"
+                           class="payment-option">
+                        <input type="radio"
+                               name="paymentMethod"
+                               value="PAYPAL"
+                               style="margin-right:0.75rem;"/>
+                        <span style="font-family:'Rajdhani',sans-serif; font-weight:700;">
+                            🅿️ PayPal
+                        </span>
+                        <p style="color:var(--text-muted); font-size:0.8rem; margin:0.3rem 0 0 1.5rem;">
+                            Secure online payment
+                        </p>
+                    </label>
+
+
+                    <div style="padding:1rem 0; border-top:1px solid var(--border); margin-bottom:1rem;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span style="color:var(--text-muted);">Order Total</span>
+                            <span style="font-family:'Rajdhani',sans-serif; font-size:1.5rem; font-weight:700; color:var(--accent);"
+                                  th:text="${#numbers.formatDecimal(cartTotal, 1, 2)} + ' €'">
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="btn-accent w-100 py-2"
+                            style="border:none; cursor:pointer; font-size:1rem; display:block; text-align:center;">
+                        Place Order →
+                    </button>
+
+                </form>
+
+                <a th:href="@{/cart}"
+                   style="display:block; text-align:center; margin-top:1rem; color:var(--text-muted);
+                          text-decoration:none; font-size:0.85rem; letter-spacing:1px;">
+                    ← Back to Cart
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="spacer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
