@@ -1,5 +1,6 @@
 package hr.algebra.ledvision.controller.mvc;
 
+import hr.algebra.ledvision.service.AdExampleService;
 import hr.algebra.ledvision.service.AdSpacePackageService;
 import hr.algebra.ledvision.service.PricingTierService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ public class AdSpacePackageViewController {
 
     private final AdSpacePackageService packageService;
     private final PricingTierService tierService;
+    private final AdExampleService exampleService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -46,6 +48,7 @@ public class AdSpacePackageViewController {
         packageService.getPackageById(id)
                 .ifPresent(adSpacePackage -> model.addAttribute("pkg", adSpacePackage));
         model.addAttribute("tiers", tierService.getTiersByPackageId(id));
+        model.addAttribute("examples", exampleService.getExamplesByPackageId(id));
         return "packages/detail";
     }
 }

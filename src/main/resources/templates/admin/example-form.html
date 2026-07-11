@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head('Admin - Ad Example')}">
+    <title>Talaria</title>
+</head>
+
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="auth-card">
+                <h2 class="auth-title"
+                    th:text="${example.id != null} ? 'EDIT AD EXAMPLE' : 'NEW AD EXAMPLE'">
+                    Ad Example
+                </h2>
+
+                <form th:action="@{/admin/examples/save}" method="post">
+                    <input type="hidden" name="id" th:value="${example.id}"/>
+                    <input type="hidden" name="packageId" th:value="${example.adSpacePackage.id}"/>
+
+                    <div class="mb-4">
+                        <label class="form-label">Media type
+                        <select name="mediaType" class="form-control">
+                            <option value="IMAGE" th:selected="${example.mediaType == null or example.mediaType.name() == 'IMAGE'}">Image</option>
+                            <option value="VIDEO" th:selected="${example.mediaType != null and example.mediaType.name() == 'VIDEO'}">Video</option>
+                        </select>
+                        </label>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Media URL (e.g. /images/ads/example1.jpg or /videos/ads/example1.mp4)
+                        <input type="text"
+                               name="mediaUrl"
+                               class="form-control"
+                               placeholder="/images/ads/example1.jpg"
+                               th:value="${example.mediaUrl}"
+                               required/>
+                        </label>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Caption (optional)
+                        <input type="text"
+                               name="caption"
+                               class="form-control"
+                               th:value="${example.caption}"/>
+                        </label>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-4">
+                        <button type="submit"
+                                class="btn-accent px-4 py-2"
+                                style="border:none; cursor:pointer;">
+                            Save
+                        </button>
+                        <a th:href="@{/admin/packages/edit/{id}(id=${example.adSpacePackage.id})}"
+                           class="btn-outline-accent px-4 py-2"
+                           style="text-decoration:none;">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="spacer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

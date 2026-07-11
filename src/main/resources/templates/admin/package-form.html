@@ -108,6 +108,38 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Example ad media (photos/videos of what an ad on this package
+                     looks like) - same "only once the package has an id" rule as tiers. -->
+                <div th:if="${pkg.id != null}" style="border-top:1px solid var(--border); margin-top:2rem; padding-top:1.5rem;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 style="font-family:'Rajdhani',sans-serif; font-weight:700; margin:0;">Ad Examples</h4>
+                        <a th:href="@{/admin/packages/{id}/examples/new(id=${pkg.id})}"
+                           class="btn-accent" style="padding:0.3rem 0.8rem; text-decoration:none; font-size:0.85rem;">
+                            + New Example
+                        </a>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(examples)}" style="color:var(--text-muted);">
+                        No example ads yet.
+                    </div>
+
+                    <div th:each="example : ${examples}"
+                         class="d-flex justify-content-between align-items-center py-2"
+                         style="border-bottom:1px solid var(--border);">
+                        <span th:text="${example.mediaType} + ' — ' + ${example.mediaUrl} + (${example.caption} != null ? ' (' + ${example.caption} + ')' : '')"></span>
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/admin/examples/edit/{id}(id=${example.id})}"
+                               style="color:var(--text-muted); text-decoration:none; font-size:0.85rem;">✎</a>
+                            <form th:action="@{/admin/examples/delete/{id}(id=${example.id})}" method="post"
+                                  onsubmit="return confirm('Delete this ad example?')">
+                                <input type="hidden" name="packageId" th:value="${pkg.id}"/>
+                                <button type="submit"
+                                        style="background:none; border:none; color:#ff6666; cursor:pointer; font-size:0.85rem;">×</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

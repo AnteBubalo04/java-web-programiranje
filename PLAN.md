@@ -149,7 +149,7 @@ sizeLabel (String, npr. "Mali ekran (2m²)"/"Veliki ekran (6m²)"), price (BigDe
 ## FAZA 5 — AdExample (galerija primjera reklama: slike I videi)
 
 ### Korak 5.1 — Dodaj AdExample entitet + CRUD (aditivno)
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo
 **Fajlovi (novi):** `model/AdExample.java` (`id, adSpacePackage (ManyToOne), mediaUrl, mediaType (enum IMAGE/VIDEO), caption`), `repository/AdExampleRepository.java`, `dto/AdExampleDto.java`, `mapper/AdExampleMapper.java`, servisne metode u `AdSpacePackageService` ili novi `AdExampleService`, admin CRUD forma/rute (slično tier-ovima), prikaz galerije na `products/detail.html` (budući `packages/detail.html`) — slike se prikazuju kao `<img>`, videi kao `<video controls>` ovisno o `mediaType`.
 **Provjera:** `mvnw clean compile`
 

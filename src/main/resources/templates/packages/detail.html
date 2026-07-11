@@ -104,6 +104,34 @@
                 </a>
             </div>
         </div>
+
+        <!-- Example ads: photos/videos of what a campaign on this screen looks
+             like. mediaType picks whether each item renders as <img> or <video>. -->
+        <div th:if="${examples != null and !#lists.isEmpty(examples)}"
+             style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
+            <h4 style="font-family:'Rajdhani',sans-serif; font-weight:700; margin-bottom:1.5rem;">
+                Example Ads
+            </h4>
+            <div class="row g-4">
+                <div th:each="example : ${examples}" class="col-md-4 col-sm-6">
+                    <div style="background:var(--surface); border:1px solid var(--border); overflow:hidden;">
+                        <img th:if="${example.mediaType.name() == 'IMAGE'}"
+                             th:src="${example.mediaUrl}"
+                             class="img-fluid"
+                             style="width:100%; object-fit:cover;"
+                             alt="ad example"/>
+                        <video th:if="${example.mediaType.name() == 'VIDEO'}"
+                               th:src="${example.mediaUrl}"
+                               style="width:100%;"
+                               controls>
+                        </video>
+                    </div>
+                    <p th:if="${example.caption != null}"
+                       style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;"
+                       th:text="${example.caption}"></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

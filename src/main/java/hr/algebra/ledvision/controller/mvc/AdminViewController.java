@@ -3,8 +3,8 @@ package hr.algebra.ledvision.controller.mvc;
 import hr.algebra.ledvision.model.AdSpacePackage;
 import hr.algebra.ledvision.model.Location;
 import hr.algebra.ledvision.model.Order;
-import hr.algebra.ledvision.model.PricingTier;
 import hr.algebra.ledvision.repository.LoginHistoryRepository;
+import hr.algebra.ledvision.service.AdExampleService;
 import hr.algebra.ledvision.service.AdSpacePackageService;
 import hr.algebra.ledvision.service.OrderService;
 import hr.algebra.ledvision.service.PricingTierService;
@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-
+// Dashboard, Location CRUD, AdSpacePackage CRUD, order management and login
+// history. PricingTier/AdExample CRUD (both scoped to a single package) live
+// in AdminPackageMediaController instead - keeping them here would push this
+// class over the assignment's 200-line-per-class limit.
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -24,16 +26,17 @@ public class AdminViewController {
 
     private final AdSpacePackageService packageService;
     private final PricingTierService tierService;
+    private final AdExampleService exampleService;
     private final LoginHistoryRepository loginHistoryRepository;
     private final OrderService orderService;
 
     private static final String LOCATION_VIEW = "location";
     private static final String PACKAGE_VIEW = "pkg";
-    private static final String TIER_VIEW = "tier";
     private static final String ORDERS_VIEW = "orders";
     private static final String LOCATIONS_VIEW = "locations";
     private static final String PACKAGES_VIEW = "packages";
     private static final String TIERS_VIEW = "tiers";
+    private static final String EXAMPLES_VIEW = "examples";
     private static final String LOGIN_HISTORY_VIEW = "loginHistory";
 
 
@@ -87,6 +90,7 @@ public class AdminViewController {
                 .ifPresent(adSpacePackage -> model.addAttribute(PACKAGE_VIEW, adSpacePackage));
         model.addAttribute(LOCATIONS_VIEW, packageService.getAllLocations());
         model.addAttribute(TIERS_VIEW, tierService.getTiersByPackageId(id));
+        model.addAttribute(EXAMPLES_VIEW, exampleService.getExamplesByPackageId(id));
         return "admin/package-form";
     }
 
@@ -117,52 +121,6 @@ public class AdminViewController {
     public String deletePackage(@PathVariable Long id) {
         packageService.deletePackage(id);
         return "redirect:/admin";
-    }
-
-
-
-    // PricingTier CRUD is reached from a package's edit page (a tier always
-    // belongs to exactly one package), same idea as Location CRUD being
-    // reached from the dashboard.
-    @GetMapping("/packages/{packageId}/tiers/new")
-    public String newTierForm(@PathVariable Long packageId, Model model) {
-        PricingTier tier = new PricingTier();
-        packageService.getPackageById(packageId).ifPresent(tier::setAdSpacePackage);
-        model.addAttribute(TIER_VIEW, tier);
-        return "admin/tier-form";
-    }
-
-    @GetMapping("/tiers/edit/{id}")
-    public String editTierForm(@PathVariable Long id, Model model) {
-        tierService.getTierById(id)
-                .ifPresent(tier -> model.addAttribute(TIER_VIEW, tier));
-        return "admin/tier-form";
-    }
-
-    @PostMapping("/tiers/save")
-    public String saveTier(
-            @RequestParam(required = false) Long id,
-            @RequestParam Long packageId,
-            @RequestParam String durationLabel,
-            @RequestParam String sizeLabel,
-            @RequestParam BigDecimal price) {
-
-        PricingTier tier = (id != null)
-                ? tierService.getTierById(id).orElse(new PricingTier())
-                : new PricingTier();
-
-        tier.setDurationLabel(durationLabel);
-        tier.setSizeLabel(sizeLabel);
-        tier.setPrice(price);
-
-        tierService.saveTier(packageId, tier);
-        return "redirect:/admin/packages/edit/" + packageId;
-    }
-
-    @PostMapping("/tiers/delete/{id}")
-    public String deleteTier(@PathVariable Long id, @RequestParam Long packageId) {
-        tierService.deleteTier(id);
-        return "redirect:/admin/packages/edit/" + packageId;
     }
 
 
