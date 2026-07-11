@@ -191,15 +191,15 @@ Zadatak traži postavljanje na hosting/Tomcat prije prezentacije — ovo namjern
 
 | Faza | Opis | Status |
 |---|---|---|
-| 0.1 | Env varijable (MANUAL) | ⏳ |
-| 1.1 | Package rename | ⏳ |
-| 2.1 | Category → Location | ⏳ |
-| 3.1 | Product → AdSpacePackage (rename) | ⏳ |
-| 4.1 | PricingTier entitet | ⏳ |
-| 4.2 | Admin CRUD za tier-ove | ⏳ |
-| 4.3 | Cutover: cart/order preko tier-a | ⏳ |
-| 5.1 | AdExample entitet + CRUD | ⏳ |
-| 5.2 | Ubacivanje slika (MANUAL) | ⏳ |
-| 6.1 | UI/branding pass | ⏳ |
-| 7.1 | Pun build + smoke test (MANUAL checkpoint) | ⏳ |
+| 0.1 | Env varijable (MANUAL) | ⏳ čeka na tebe |
+| 1.1 | Package rename | ✅ |
+| 2.1 | Category → Location | ✅ |
+| 3.1 | Product → AdSpacePackage (rename) | ✅ |
+| 4.1 | PricingTier entitet | ✅ |
+| 4.2 | Admin CRUD za tier-ove | ✅ |
+| 4.3 | Cutover: cart/order preko tier-a | ✅ |
+| 5.1 | AdExample entitet + CRUD | ✅ |
+| 5.2 | Ubacivanje slika/videa (MANUAL) | ⏳ čeka na tebe |
+| 6.1 | UI/branding pass | ✅ |
+| 7.1 | Pun build + smoke test (MANUAL checkpoint) | ⏳ čeka na tebe (nakon 0.1) |
 | 7.2 | Deploy (MANUAL, kasnije) | ⏳ |
