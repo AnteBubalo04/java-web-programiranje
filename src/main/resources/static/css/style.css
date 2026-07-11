@@ -20,7 +20,7 @@ body {
 }
 
 /* ===== NAVBAR ===== */
-.talaria-nav {
+.ledvision-nav {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     padding: 0.75rem 0;
@@ -29,7 +29,7 @@ body {
     z-index: 100;
 }
 
-.talaria-nav .navbar-brand {
+.ledvision-nav .navbar-brand {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 1.6rem;
@@ -38,7 +38,7 @@ body {
     text-decoration: none;
 }
 
-.talaria-nav .nav-link {
+.ledvision-nav .nav-link {
     color: var(--text-muted) !important;
     font-size: 0.85rem;
     letter-spacing: 1px;
@@ -48,7 +48,7 @@ body {
     padding: 0.4rem 0.8rem;
 }
 
-.talaria-nav .nav-link:hover {
+.ledvision-nav .nav-link:hover {
     color: var(--text) !important;
 }
 

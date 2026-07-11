@@ -12,12 +12,12 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     @Bean
-    public OpenAPI talariaOpenAPI() {
+    public OpenAPI ledVisionOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Talaria Web Shop API")
+                        .title("LedVision API")
                         .version("1.0")
-                        .description("REST API za Talaria web shop"))
+                        .description("REST API za LedVision - rezervacija LED oglasnog prostora u Zagrebu"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",

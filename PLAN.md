@@ -168,7 +168,7 @@ Nikakav dodatni kod nije potreban — `/images/**` je već javno servirano; za `
 ## FAZA 6 — UI / Branding pass
 
 ### Korak 6.1 — Tekstualne izmjene (kozmetika, nema strukturnih rizika)
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo
 **Fajlovi:** `fragments/navbar.html` (TALARIA → LEDVISION, "Products"→"Packages", "🛒 Cart" ostaje ili se mijenja u "Reservations"), `index.html` (hero tekst "RIDE THE FUTURE"/"Electric Mobility" → LED-oglašavanje tekst, "Shop by Category"→"Browse Locations", "Featured Products"→"Featured Packages"), `products/list.html`, `admin/dashboard.html` (tab nazivi), `fragments/head.html` (title fallback), ikone (⚡ placeholderi → npr. 💡/📺)
 **[MANUAL napomena]:** trenutni hero image je eksterni URL specifičan za Talaria motocikl. Trebat ću od tebe URL nove hero slike (ili ću staviti generički placeholder/gradient dok ne dostaviš sliku) — javit ću kad dođemo do ovog koraka.
 **Provjera:** `mvnw clean compile`

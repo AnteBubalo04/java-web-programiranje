@@ -27,7 +27,7 @@ public class PayPalService {
 
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
-        transaction.setDescription("Talaria Parts Order");
+        transaction.setDescription("LedVision Ad Space Reservation");
 
         Payer payer = new Payer();
         payer.setPaymentMethod("paypal");
