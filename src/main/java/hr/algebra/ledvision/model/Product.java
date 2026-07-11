@@ -32,9 +32,12 @@ public class Product {
     @Column()
     private String imageUrl;
 
+    // NOTE: still typed/named after the old "category" relation for now - this whole
+    // class becomes AdSpacePackage in the next refactor step, at which point this
+    // field is renamed to "location" together with the class itself.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private Location category;
 
     @Column(nullable = false)
     private boolean active = true;

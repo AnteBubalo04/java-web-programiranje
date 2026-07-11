@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/head :: head('Admin - Category')}">
+<head th:replace="~{fragments/head :: head('Admin - Location')}">
     <title>Talaria</title>
 </head>
 
@@ -13,19 +13,19 @@
         <div class="col-md-6">
             <div class="auth-card">
                 <h2 class="auth-title"
-                    th:text="${category.id != null} ? 'EDIT CATEGORY' : 'NEW CATEGORY'">
-                    Category
+                    th:text="${location.id != null} ? 'EDIT LOCATION' : 'NEW LOCATION'">
+                    Location
                 </h2>
 
-                <form th:action="@{/admin/categories/save}" method="post">
-                    <input type="hidden" name="id" th:value="${category.id}"/>
+                <form th:action="@{/admin/locations/save}" method="post">
+                    <input type="hidden" name="id" th:value="${location.id}"/>
 
                     <div class="mb-4">
                         <label class="form-label">Name
                         <input type="text"
                                name="name"
                                class="form-control"
-                               th:value="${category.name}"
+                               th:value="${location.name}"
                                required/>
                             </label>
                     </div>
@@ -35,7 +35,7 @@
                         <textarea name="description"
                                   class="form-control"
                                   rows="3"
-                                  th:text="${category.description}">
+                                  th:text="${location.description}">
                         </textarea>
                             </label>
                     </div>
@@ -46,7 +46,7 @@
                                name="imageUrl"
                                class="form-control"
                                placeholder="https://..."
-                               th:value="${category.imageUrl}"/>
+                               th:value="${location.imageUrl}"/>
                     </label>
                     </div>
 

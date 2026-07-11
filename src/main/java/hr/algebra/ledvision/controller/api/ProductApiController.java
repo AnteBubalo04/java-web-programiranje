@@ -41,9 +41,9 @@ public class ProductApiController {
     }
 
     @GetMapping("/category/{categoryId}")
-    @Operation(summary = "Get products by category")
+    @Operation(summary = "Get products by location")
     public List<ProductDto> getByCategory(@PathVariable Long categoryId) {
-        return productService.getProductsByCategory(categoryId).stream()
+        return productService.getProductsByLocation(categoryId).stream()
                 .map(ProductMapper::toDto)
                 .toList();
     }
@@ -61,7 +61,7 @@ public class ProductApiController {
     @Operation(summary = "Create product (ADMIN only)")
     public ResponseEntity<ProductDto> create(@RequestBody ProductDto dto) {
         Product product = toEntity(dto);
-        productService.getCategoryById(dto.getCategoryId())
+        productService.getLocationById(dto.getCategoryId())
                 .ifPresent(product::setCategory);
         Product saved = productService.saveProduct(product);
         return ResponseEntity.ok(toDto(saved));
@@ -79,7 +79,7 @@ public class ProductApiController {
                     product.setPrice(dto.getPrice());
                     product.setStockQuantity(dto.getStockQuantity());
                     product.setImageUrl(dto.getImageUrl());
-                    productService.getCategoryById(dto.getCategoryId())
+                    productService.getLocationById(dto.getCategoryId())
                             .ifPresent(product::setCategory);
                     return ResponseEntity.ok(toDto(productService.saveProduct(product)));
                 })

@@ -75,12 +75,12 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label">Category
-                        <select name="categoryId" class="form-control">
-                            <option th:each="category : ${categories}"
-                                    th:value="${category.id}"
-                                    th:text="${category.name}"
-                                    th:selected="${product.category != null and product.category.id == category.id}">
+                        <label class="form-label">Location
+                        <select name="locationId" class="form-control">
+                            <option th:each="location : ${locations}"
+                                    th:value="${location.id}"
+                                    th:text="${location.name}"
+                                    th:selected="${product.category != null and product.category.id == location.id}">
                             </option>
                         </select>
                         </label>

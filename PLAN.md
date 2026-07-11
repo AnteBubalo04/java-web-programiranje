@@ -60,7 +60,7 @@ Do tada radim isključivo s `mvnw clean compile` koji ne treba bazu.
 ## FAZA 1 — Package rename
 
 ### Korak 1.1 — `hr.algebra.talaria` → `hr.algebra.ledvision`
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo (commit `00f75d5`)
 **Fajlovi:** svi `.java` fajlovi (package deklaracije + importi), `pom.xml` (`artifactId`, `name`, `description`), `application.properties` (`spring.application.name`), `TalariaApplication.java` → `LedVisionApplication.java`, `TalariaApplicationTests.java` → `LedVisionApplicationTests.java`, folder struktura `src/main/java/hr/algebra/talaria/` → `src/main/java/hr/algebra/ledvision/`.
 **Opis:** Čisto mehanički rename, bez promjene logike. Radi se u jednom commitu jer je nedjeljiv (Java ne kompajlira polovično promijenjen package).
 **Provjera:** `mvnw clean compile`
@@ -70,7 +70,7 @@ Do tada radim isključivo s `mvnw clean compile` koji ne treba bazu.
 ## FAZA 2 — Category → Location
 
 ### Korak 2.1 — Rename entiteta i svih slojeva
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo
 **Fajlovi:**
 - `model/Category.java` → `model/Location.java` (`@Table(name="categories")` → `"locations"`)
 - `repository/CategoryRepository.java` → `LocationRepository.java`

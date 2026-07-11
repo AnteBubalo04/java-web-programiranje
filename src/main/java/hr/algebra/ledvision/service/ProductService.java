@@ -1,8 +1,8 @@
 package hr.algebra.ledvision.service;
 
-import hr.algebra.ledvision.model.Category;
+import hr.algebra.ledvision.model.Location;
 import hr.algebra.ledvision.model.Product;
-import hr.algebra.ledvision.repository.CategoryRepository;
+import hr.algebra.ledvision.repository.LocationRepository;
 import hr.algebra.ledvision.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,19 +10,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// Serves entities (not DTOs) straight to Thymeleaf templates - the MVC-side
+// counterpart to LocationService/ProductApiController which serve JSON DTOs
+// to the REST API. Also still owns Location CRUD for the admin screens, exactly
+// like the original ProductService owned Category CRUD - not cleaned up here to
+// keep this step a pure rename, see PLAN.md Phase 3 for the full Product ->
+// AdSpacePackage pass where this class itself gets renamed/reworked.
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    private final LocationRepository locationRepository;
 
     public List<Product> getAllActiveProducts() {
         return productRepository.findByActiveTrueWithCategory();
     }
 
-    public List<Product> getProductsByCategory(Long categoryId) {
-        return categoryRepository.findById(categoryId)
+    public List<Product> getProductsByLocation(Long locationId) {
+        return locationRepository.findById(locationId)
                 .map(productRepository::findByCategoryAndActiveTrueWithCategory)
                 .orElse(List.of());
     }
@@ -34,8 +40,8 @@ public class ProductService {
          return productRepository.findByIdWithCategory(id);
     }
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<Location> getAllLocations() {
+        return locationRepository.findAll();
     }
 
 
@@ -51,16 +57,16 @@ public class ProductService {
         });
     }
 
-    public Optional<Category> getCategoryById(Long id) {
-        return categoryRepository.findById(id);
+    public Optional<Location> getLocationById(Long id) {
+        return locationRepository.findById(id);
     }
 
-    public void saveCategory(Category category) {
-        categoryRepository.save(category);
+    public void saveLocation(Location location) {
+        locationRepository.save(location);
     }
 
-    public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+    public void deleteLocation(Long id) {
+        locationRepository.deleteById(id);
     }
 
 

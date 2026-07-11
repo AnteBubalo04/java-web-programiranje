@@ -35,13 +35,13 @@
             <div class="d-flex gap-2 flex-wrap justify-content-md-end">
                 <a th:href="@{/products}"
                    class="category-pill"
-                   th:classappend="${selectedCategory == null} ? ' active' : ''">
+                   th:classappend="${selectedLocation == null} ? ' active' : ''">
                     All
                 </a>
-                <a th:each="category : ${categories}"
-                   th:href="@{/products(categoryId=${category.id})}"
-                   th:text="${category.name}"
-                   th:classappend="${selectedCategory == category.id} ? ' active' : ''"
+                <a th:each="location : ${locations}"
+                   th:href="@{/products(locationId=${location.id})}"
+                   th:text="${location.name}"
+                   th:classappend="${selectedLocation == location.id} ? ' active' : ''"
                    class="category-pill">
                 </a>
             </div>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="product-card-body">
                     <p class="product-card-category"
-                       th:text="${product.category.name}"></p>
+                       th:text="${product.category.name}"><!-- Product.category holds a Location, see Product.java --></p>
                     <h5 class="product-card-title"
                         th:text="${product.name}">
                         Product

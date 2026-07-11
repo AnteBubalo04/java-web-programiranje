@@ -1,6 +1,6 @@
 package hr.algebra.ledvision.controller.mvc;
 
-import hr.algebra.ledvision.model.Category;
+import hr.algebra.ledvision.model.Location;
 import hr.algebra.ledvision.model.Order;
 import hr.algebra.ledvision.model.Product;
 import hr.algebra.ledvision.repository.LoginHistoryRepository;
@@ -22,10 +22,10 @@ public class AdminViewController {
     private final LoginHistoryRepository loginHistoryRepository;
     private final OrderService orderService;
 
-    private static final String CATEGORY_VIEW = "category";
+    private static final String LOCATION_VIEW = "location";
     private static final String PRODUCT_VIEW = "product";
     private static final String ORDERS_VIEW = "orders";
-    private static final String CATEGORIES_VIEW = "categories";
+    private static final String LOCATIONS_VIEW = "locations";
     private static final String PRODUCTS_VIEW = "products";
     private static final String LOGIN_HISTORY_VIEW = "loginHistory";
 
@@ -34,34 +34,34 @@ public class AdminViewController {
     @GetMapping
     public String dashboard(Model model) {
         model.addAttribute(PRODUCTS_VIEW, productService.getAllActiveProducts());
-        model.addAttribute(CATEGORIES_VIEW, productService.getAllCategories());
+        model.addAttribute(LOCATIONS_VIEW, productService.getAllLocations());
         return "admin/dashboard";
     }
 
 
 
-    @GetMapping("/categories/new")
-    public String newCategoryForm(Model model) {
-        model.addAttribute(CATEGORY_VIEW, new Category());
-        return "admin/category-form";
+    @GetMapping("/locations/new")
+    public String newLocationForm(Model model) {
+        model.addAttribute(LOCATION_VIEW, new Location());
+        return "admin/location-form";
     }
 
-    @GetMapping("/categories/edit/{id}")
-    public String editCategoryForm(@PathVariable Long id, Model model) {
-        productService.getCategoryById(id)
-                .ifPresent(category -> model.addAttribute(CATEGORY_VIEW, category));
-        return "admin/category-form";
+    @GetMapping("/locations/edit/{id}")
+    public String editLocationForm(@PathVariable Long id, Model model) {
+        productService.getLocationById(id)
+                .ifPresent(location -> model.addAttribute(LOCATION_VIEW, location));
+        return "admin/location-form";
     }
 
-    @PostMapping("/categories/save")
-    public String saveCategory(@ModelAttribute Category category) {
-        productService.saveCategory(category);
+    @PostMapping("/locations/save")
+    public String saveLocation(@ModelAttribute Location location) {
+        productService.saveLocation(location);
         return "redirect:/admin";
     }
 
-    @PostMapping("/categories/delete/{id}")
-    public String deleteCategory(@PathVariable Long id) {
-        productService.deleteCategory(id);
+    @PostMapping("/locations/delete/{id}")
+    public String deleteLocation(@PathVariable Long id) {
+        productService.deleteLocation(id);
         return "redirect:/admin";
     }
 
@@ -70,7 +70,7 @@ public class AdminViewController {
     @GetMapping("/products/new")
     public String newProductForm(Model model) {
         model.addAttribute(PRODUCT_VIEW, new Product());
-        model.addAttribute(CATEGORIES_VIEW, productService.getAllCategories());
+        model.addAttribute(LOCATIONS_VIEW, productService.getAllLocations());
         return "admin/product-form";
     }
 
@@ -78,7 +78,7 @@ public class AdminViewController {
     public String editProductForm(@PathVariable Long id, Model model) {
         productService.getProductById(id)
                 .ifPresent(product -> model.addAttribute(PRODUCT_VIEW, product));
-        model.addAttribute(CATEGORIES_VIEW, productService.getAllCategories());
+        model.addAttribute(LOCATIONS_VIEW, productService.getAllLocations());
         return "admin/product-form";
     }
 
@@ -90,7 +90,7 @@ public class AdminViewController {
             @RequestParam java.math.BigDecimal price,
             @RequestParam Integer stockQuantity,
             @RequestParam(required = false) String imageUrl,
-            @RequestParam Long categoryId) {
+            @RequestParam Long locationId) {
 
         Product product = (id != null)
                 ? productService.getProductById(id).orElse(new Product())
@@ -102,7 +102,7 @@ public class AdminViewController {
         product.setStockQuantity(stockQuantity);
         product.setImageUrl(imageUrl);
 
-        productService.getCategoryById(categoryId)
+        productService.getLocationById(locationId)
                 .ifPresent(product::setCategory);
 
         productService.saveProduct(product);

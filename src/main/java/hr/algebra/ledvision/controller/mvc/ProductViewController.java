@@ -14,27 +14,27 @@ public class ProductViewController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("categories", productService.getAllCategories());
+        model.addAttribute("locations", productService.getAllLocations());
         model.addAttribute("products", productService.getAllActiveProducts());
         return "index";
     }
 
     @GetMapping("/products")
     public String products(
-            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long locationId,
             @RequestParam(required = false) String search,
             Model model) {
 
         if (search != null && !search.isEmpty()) {
             model.addAttribute("products", productService.searchProducts(search));
-        } else if (categoryId != null) {
-            model.addAttribute("products", productService.getProductsByCategory(categoryId));
+        } else if (locationId != null) {
+            model.addAttribute("products", productService.getProductsByLocation(locationId));
         } else {
             model.addAttribute("products", productService.getAllActiveProducts());
         }
 
-        model.addAttribute("categories", productService.getAllCategories());
-        model.addAttribute("selectedCategory", categoryId);
+        model.addAttribute("locations", productService.getAllLocations());
+        model.addAttribute("selectedLocation", locationId);
         model.addAttribute("search", search);
         return "products/list";
     }

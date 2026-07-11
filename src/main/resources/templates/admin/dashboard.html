@@ -25,10 +25,10 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#categories"
+            <a href="#locations"
                style="color:var(--text-muted); padding:0.5rem 1rem; text-decoration:none;
                   font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; display:inline-block;">
-                Categories
+                Locations
             </a>
         </li>
         <li class="nav-item">
@@ -65,7 +65,7 @@
                         letter-spacing:1px;
                         text-transform:uppercase;">
                 <div class="col-md-4">Name</div>
-                <div class="col-md-3">Category</div>
+                <div class="col-md-3">Location</div>
                 <div class="col-md-2">Price</div>
                 <div class="col-md-2">In Stock</div>
                 <div class="col-md-1"></div>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-md-3"
                      style="color:var(--text-muted); font-size:0.9rem;"
-                     th:text="${product.category.name}">
+                     th:text="${product.category.name}"><!-- Product.category still holds a Location entity, see Product.java -->
                 </div>
                 <div class="col-md-2"
                      style="color:var(--accent); font-family:'Rajdhani',sans-serif;"
@@ -110,13 +110,13 @@
         </div>
     </div>
 
-    <!-- Categories -->
-    <div id="categories" class="mb-5">
+    <!-- Locations -->
+    <div id="locations" class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 style="font-family:'Rajdhani',sans-serif; font-size:1.3rem;">Categories</h3>
-            <a th:href="@{/admin/categories/new}" class="btn-accent"
+            <h3 style="font-family:'Rajdhani',sans-serif; font-size:1.3rem;">Locations</h3>
+            <a th:href="@{/admin/locations/new}" class="btn-accent"
                style="padding:0.4rem 1rem; text-decoration:none; font-size:0.9rem;">
-                + New Category
+                + New Location
             </a>
         </div>
 
@@ -132,29 +132,29 @@
                 <div class="col-md-2"></div>
             </div>
 
-            <div th:if="${#lists.isEmpty(categories)}"
+            <div th:if="${#lists.isEmpty(locations)}"
                  class="py-4 px-4"
                  style="color:var(--text-muted);">
-                No categories found.
+                No locations found.
             </div>
 
-            <div th:each="category : ${categories}"
+            <div th:each="location : ${locations}"
                  class="row py-3 px-4 align-items-center"
                  style="border-bottom:1px solid var(--border);">
                 <div class="col-md-4"
                      style="font-family:'Rajdhani',sans-serif; font-weight:700;"
-                     th:text="${category.name}">
+                     th:text="${location.name}">
                 </div>
                 <div class="col-md-6"
                      style="color:var(--text-muted); font-size:0.9rem;"
-                     th:text="${category.description}">
+                     th:text="${location.description}">
                 </div>
                 <div class="col-md-2 d-flex gap-2">
-                    <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}"
+                    <a th:href="@{/admin/locations/edit/{id}(id=${location.id})}"
                        style="color:var(--text-muted); text-decoration:none; font-size:0.85rem;">✎</a>
-                    <form th:action="@{/admin/categories/delete/{id}(id=${category.id})}"
+                    <form th:action="@{/admin/locations/delete/{id}(id=${location.id})}"
                           method="post"
-                          onsubmit="return confirm('Delete this category?')">
+                          onsubmit="return confirm('Delete this location?')">
                         <button type="submit"
                                 style="background:none; border:none; color:#ff6666; cursor:pointer; font-size:0.85rem;">×</button>
                     </form>
