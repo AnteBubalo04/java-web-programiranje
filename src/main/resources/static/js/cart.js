@@ -1,11 +1,11 @@
-async function addToCart(productId) {
+async function addToCart(packageId) {
     const quantity = document.getElementById('quantity').value;
 
     const response = await fetch('/api/cart/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            productId: productId,
+            packageId: packageId,
             quantity: Number.parseInt(quantity)
         })
     });
@@ -19,19 +19,19 @@ async function addToCart(productId) {
     }
 }
 
-async function removeFromCart(productId) {
-    const response = await fetch(`/api/cart/remove/${productId}`, {
+async function removeFromCart(packageId) {
+    const response = await fetch(`/api/cart/remove/${packageId}`, {
         method: 'DELETE'
     });
     if (response.ok) location.reload();
 }
 
-async function updateQuantity(productId, quantity) {
+async function updateQuantity(packageId, quantity) {
     if (quantity <= 0) {
-        await removeFromCart(productId);
+        await removeFromCart(packageId);
         return;
     }
-    const response = await fetch(`/api/cart/update/${productId}`, {
+    const response = await fetch(`/api/cart/update/${packageId}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({quantity: quantity})

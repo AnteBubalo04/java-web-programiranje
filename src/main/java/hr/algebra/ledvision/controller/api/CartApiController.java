@@ -24,32 +24,32 @@ public class CartApiController {
             HttpSession session) {
 
         Map<Long, Integer> cart = getOrCreateCart(session);
-        cartService.addToCart(cart, request.productId(), request.quantity());
+        cartService.addToCart(cart, request.packageId(), request.quantity());
         session.setAttribute("cart", cart);
 
         return ResponseEntity.ok("Added to cart!");
     }
 
-    @DeleteMapping("/remove/{productId}")
+    @DeleteMapping("/remove/{packageId}")
     public ResponseEntity<String> removeFromCart(
-            @PathVariable Long productId,
+            @PathVariable Long packageId,
             HttpSession session) {
 
         Map<Long, Integer> cart = getOrCreateCart(session);
-        cartService.removeFromCart(cart, productId);
+        cartService.removeFromCart(cart, packageId);
         session.setAttribute("cart", cart);
 
         return ResponseEntity.ok("Removed from cart!");
     }
 
-    @PutMapping("/update/{productId}")
+    @PutMapping("/update/{packageId}")
     public ResponseEntity<String> updateQuantity(
-            @PathVariable Long productId,
+            @PathVariable Long packageId,
             @RequestBody CartUpdateRequest request,
             HttpSession session) {
 
         Map<Long, Integer> cart = getOrCreateCart(session);
-        cartService.updateQuantity(cart, productId, request.quantity());
+        cartService.updateQuantity(cart, packageId, request.quantity());
         session.setAttribute("cart", cart);
 
         return ResponseEntity.ok("Quantity updated!");

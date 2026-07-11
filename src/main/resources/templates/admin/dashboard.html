@@ -17,11 +17,11 @@
     <!-- Tabs -->
     <ul class="nav mb-4" style="border-bottom:1px solid var(--border);">
         <li class="nav-item">
-            <a href="#products"
+            <a href="#packages"
                style="color:var(--accent); border-bottom:2px solid var(--accent);
                   padding:0.5rem 1rem; text-decoration:none; font-size:0.85rem;
                   letter-spacing:1px; text-transform:uppercase; display:inline-block;">
-                Products
+                Packages
             </a>
         </li>
         <li class="nav-item">
@@ -47,13 +47,13 @@
         </li>
     </ul>
 
-    <!-- Products -->
-    <div id="products" class="mb-5">
+    <!-- Packages -->
+    <div id="packages" class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 style="font-family:'Rajdhani',sans-serif; font-size:1.3rem;">Products</h3>
-            <a th:href="@{/admin/products/new}" class="btn-accent"
+            <h3 style="font-family:'Rajdhani',sans-serif; font-size:1.3rem;">Packages</h3>
+            <a th:href="@{/admin/packages/new}" class="btn-accent"
                style="padding:0.4rem 1rem; text-decoration:none; font-size:0.9rem;">
-                + New Product
+                + New Package
             </a>
         </div>
 
@@ -71,37 +71,37 @@
                 <div class="col-md-1"></div>
             </div>
 
-            <div th:if="${#lists.isEmpty(products)}"
+            <div th:if="${#lists.isEmpty(packages)}"
                  class="py-4 px-4"
                  style="color:var(--text-muted);">
-                No products found.
+                No packages found.
             </div>
 
-            <div th:each="product : ${products}"
+            <div th:each="pkg : ${packages}"
                  class="row py-3 px-4 align-items-center"
                  style="border-bottom:1px solid var(--border);">
                 <div class="col-md-4"
                      style="font-family:'Rajdhani',sans-serif; font-weight:700;"
-                     th:text="${product.name}">
+                     th:text="${pkg.name}">
                 </div>
                 <div class="col-md-3"
                      style="color:var(--text-muted); font-size:0.9rem;"
-                     th:text="${product.category.name}"><!-- Product.category still holds a Location entity, see Product.java -->
+                     th:text="${pkg.location.name}">
                 </div>
                 <div class="col-md-2"
                      style="color:var(--accent); font-family:'Rajdhani',sans-serif;"
-                     th:text="${product.price} + ' €'">
+                     th:text="${pkg.price} + ' €'">
                 </div>
                 <div class="col-md-2"
                      style="color:var(--text-muted);"
-                     th:text="${product.stockQuantity} + ' pcs'">
+                     th:text="${pkg.stockQuantity} + ' pcs'">
                 </div>
                 <div class="col-md-1 d-flex gap-2">
-                    <a th:href="@{/admin/products/edit/{id}(id=${product.id})}"
+                    <a th:href="@{/admin/packages/edit/{id}(id=${pkg.id})}"
                        style="color:var(--text-muted); text-decoration:none; font-size:0.85rem;">✎</a>
-                    <form th:action="@{/admin/products/delete/{id}(id=${product.id})}"
+                    <form th:action="@{/admin/packages/delete/{id}(id=${pkg.id})}"
                           method="post"
-                          onsubmit="return confirm('Delete this product?')">
+                          onsubmit="return confirm('Delete this package?')">
                         <button type="submit"
                                 style="background:none; border:none; color:#ff6666; cursor:pointer; font-size:0.85rem;">×</button>
                     </form>

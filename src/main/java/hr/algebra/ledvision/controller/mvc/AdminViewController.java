@@ -1,11 +1,11 @@
 package hr.algebra.ledvision.controller.mvc;
 
+import hr.algebra.ledvision.model.AdSpacePackage;
 import hr.algebra.ledvision.model.Location;
 import hr.algebra.ledvision.model.Order;
-import hr.algebra.ledvision.model.Product;
 import hr.algebra.ledvision.repository.LoginHistoryRepository;
+import hr.algebra.ledvision.service.AdSpacePackageService;
 import hr.algebra.ledvision.service.OrderService;
-import hr.algebra.ledvision.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,23 +18,23 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminViewController {
 
-    private final ProductService productService;
+    private final AdSpacePackageService packageService;
     private final LoginHistoryRepository loginHistoryRepository;
     private final OrderService orderService;
 
     private static final String LOCATION_VIEW = "location";
-    private static final String PRODUCT_VIEW = "product";
+    private static final String PACKAGE_VIEW = "pkg";
     private static final String ORDERS_VIEW = "orders";
     private static final String LOCATIONS_VIEW = "locations";
-    private static final String PRODUCTS_VIEW = "products";
+    private static final String PACKAGES_VIEW = "packages";
     private static final String LOGIN_HISTORY_VIEW = "loginHistory";
 
 
 
     @GetMapping
     public String dashboard(Model model) {
-        model.addAttribute(PRODUCTS_VIEW, productService.getAllActiveProducts());
-        model.addAttribute(LOCATIONS_VIEW, productService.getAllLocations());
+        model.addAttribute(PACKAGES_VIEW, packageService.getAllActivePackages());
+        model.addAttribute(LOCATIONS_VIEW, packageService.getAllLocations());
         return "admin/dashboard";
     }
 
@@ -48,42 +48,42 @@ public class AdminViewController {
 
     @GetMapping("/locations/edit/{id}")
     public String editLocationForm(@PathVariable Long id, Model model) {
-        productService.getLocationById(id)
+        packageService.getLocationById(id)
                 .ifPresent(location -> model.addAttribute(LOCATION_VIEW, location));
         return "admin/location-form";
     }
 
     @PostMapping("/locations/save")
     public String saveLocation(@ModelAttribute Location location) {
-        productService.saveLocation(location);
+        packageService.saveLocation(location);
         return "redirect:/admin";
     }
 
     @PostMapping("/locations/delete/{id}")
     public String deleteLocation(@PathVariable Long id) {
-        productService.deleteLocation(id);
+        packageService.deleteLocation(id);
         return "redirect:/admin";
     }
 
 
 
-    @GetMapping("/products/new")
-    public String newProductForm(Model model) {
-        model.addAttribute(PRODUCT_VIEW, new Product());
-        model.addAttribute(LOCATIONS_VIEW, productService.getAllLocations());
-        return "admin/product-form";
+    @GetMapping("/packages/new")
+    public String newPackageForm(Model model) {
+        model.addAttribute(PACKAGE_VIEW, new AdSpacePackage());
+        model.addAttribute(LOCATIONS_VIEW, packageService.getAllLocations());
+        return "admin/package-form";
     }
 
-    @GetMapping("/products/edit/{id}")
-    public String editProductForm(@PathVariable Long id, Model model) {
-        productService.getProductById(id)
-                .ifPresent(product -> model.addAttribute(PRODUCT_VIEW, product));
-        model.addAttribute(LOCATIONS_VIEW, productService.getAllLocations());
-        return "admin/product-form";
+    @GetMapping("/packages/edit/{id}")
+    public String editPackageForm(@PathVariable Long id, Model model) {
+        packageService.getPackageById(id)
+                .ifPresent(adSpacePackage -> model.addAttribute(PACKAGE_VIEW, adSpacePackage));
+        model.addAttribute(LOCATIONS_VIEW, packageService.getAllLocations());
+        return "admin/package-form";
     }
 
-    @PostMapping("/products/save")
-    public String saveProduct(
+    @PostMapping("/packages/save")
+    public String savePackage(
             @RequestParam(required = false) Long id,
             @RequestParam String name,
             @RequestParam String description,
@@ -92,26 +92,26 @@ public class AdminViewController {
             @RequestParam(required = false) String imageUrl,
             @RequestParam Long locationId) {
 
-        Product product = (id != null)
-                ? productService.getProductById(id).orElse(new Product())
-                : new Product();
+        AdSpacePackage adSpacePackage = (id != null)
+                ? packageService.getPackageById(id).orElse(new AdSpacePackage())
+                : new AdSpacePackage();
 
-        product.setName(name);
-        product.setDescription(description);
-        product.setPrice(price);
-        product.setStockQuantity(stockQuantity);
-        product.setImageUrl(imageUrl);
+        adSpacePackage.setName(name);
+        adSpacePackage.setDescription(description);
+        adSpacePackage.setPrice(price);
+        adSpacePackage.setStockQuantity(stockQuantity);
+        adSpacePackage.setImageUrl(imageUrl);
 
-        productService.getLocationById(locationId)
-                .ifPresent(product::setCategory);
+        packageService.getLocationById(locationId)
+                .ifPresent(adSpacePackage::setLocation);
 
-        productService.saveProduct(product);
+        packageService.savePackage(adSpacePackage);
         return "redirect:/admin";
     }
 
-    @PostMapping("/products/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    @PostMapping("/packages/delete/{id}")
+    public String deletePackage(@PathVariable Long id) {
+        packageService.deletePackage(id);
         return "redirect:/admin";
     }
 

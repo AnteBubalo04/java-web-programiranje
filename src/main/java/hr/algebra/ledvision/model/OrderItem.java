@@ -21,9 +21,13 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    // NOTE: keeps the "product" name/column for now (type already swapped to
+    // AdSpacePackage) - becomes "pricingTier" once PricingTier exists, see
+    // PLAN.md Phase 4.3, at which point a reservation references a specific
+    // priced tier of a package instead of the package directly.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private AdSpacePackage product;
 
     @Column(nullable = false)
     private Integer quantity;

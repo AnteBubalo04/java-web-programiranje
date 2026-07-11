@@ -89,7 +89,7 @@ Do tada radim isključivo s `mvnw clean compile` koji ne treba bazu.
 ## FAZA 3 — Product → AdSpacePackage (čisti rename, bez strukturnih izmjena)
 
 ### Korak 3.1 — Rename entiteta i svih slojeva (polja ostaju ista za sada)
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo
 **Fajlovi:**
 - `model/Product.java` → `model/AdSpacePackage.java` (`@Table(name="products")` → `"ad_space_packages"`, `category` polje → `location`)
 - `repository/ProductRepository.java` → `AdSpacePackageRepository.java`

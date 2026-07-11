@@ -18,7 +18,7 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
+    private final AdSpacePackageRepository packageRepository;
     private final UserRepository userRepository;
 
 
@@ -49,28 +49,28 @@ public class OrderService {
         BigDecimal total = BigDecimal.ZERO;
 
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
-            Product product = productRepository.findById(entry.getKey())
-                    .orElseThrow(() -> new IllegalArgumentException("Product not found!"));
+            AdSpacePackage adSpacePackage = packageRepository.findById(entry.getKey())
+                    .orElseThrow(() -> new IllegalArgumentException("Package not found!"));
 
-            if (product.getStockQuantity() < entry.getValue()) {
+            if (adSpacePackage.getStockQuantity() < entry.getValue()) {
                 throw new IllegalArgumentException(
-                        "No stock available: " + product.getName());
+                        "No availability left: " + adSpacePackage.getName());
             }
 
             OrderItem item = new OrderItem();
             item.setOrder(order);
-            item.setProduct(product);
+            item.setProduct(adSpacePackage);
             item.setQuantity(entry.getValue());
-            item.setPriceAtPurchase(product.getPrice());
+            item.setPriceAtPurchase(adSpacePackage.getPrice());
 
             order.getItems().add(item);
 
             total = total.add(
-                    product.getPrice().multiply(BigDecimal.valueOf(entry.getValue()))
+                    adSpacePackage.getPrice().multiply(BigDecimal.valueOf(entry.getValue()))
             );
 
-            product.setStockQuantity(product.getStockQuantity() - entry.getValue());
-            productRepository.save(product);
+            adSpacePackage.setStockQuantity(adSpacePackage.getStockQuantity() - entry.getValue());
+            packageRepository.save(adSpacePackage);
         }
 
         order.setTotalPrice(total);

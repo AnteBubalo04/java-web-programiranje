@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/head :: head(${product != null ? product.name : 'Product'})}">
+<head th:replace="~{fragments/head :: head(${pkg != null ? pkg.name : 'Package'})}">
     <title>Talaria</title>
 </head>
 
@@ -10,20 +10,20 @@
 
 <div class="container mt-5">
 
-    <div th:if="${product == null}" class="alert alert-danger">
-        Product not found!
+    <div th:if="${pkg == null}" class="alert alert-danger">
+        Package not found!
     </div>
 
 
-    <div th:if="${product != null}">
+    <div th:if="${pkg != null}">
 
 
         <p style="color:var(--text-muted); font-size:0.85rem; letter-spacing:1px; margin-bottom:2rem;">
             <a th:href="@{/}" style="color:var(--text-muted); text-decoration:none;">Home</a>
             <span class="mx-2">→</span>
-            <a th:href="@{/products}" style="color:var(--text-muted); text-decoration:none;">Products</a>
+            <a th:href="@{/packages}" style="color:var(--text-muted); text-decoration:none;">Packages</a>
             <span class="mx-2">→</span>
-            <span style="color:var(--accent);" th:text="${product.name}"></span>
+            <span style="color:var(--accent);" th:text="${pkg.name}"></span>
         </p>
 
         <div class="row g-5">
@@ -31,12 +31,12 @@
 
             <div class="col-md-5">
                 <div style="background:var(--surface); border:1px solid var(--border); overflow:hidden;">
-                    <img th:src="${product.imageUrl}"
-                         th:if="${product.imageUrl != null}"
+                    <img th:src="${pkg.imageUrl}"
+                         th:if="${pkg.imageUrl != null}"
                          class="img-fluid"
                          style="width:100%; object-fit:cover; filter:grayscale(10%);"
-                         alt="product"/>
-                    <div th:if="${product.imageUrl == null}"
+                         alt="package"/>
+                    <div th:if="${pkg.imageUrl == null}"
                          style="height:350px; display:flex; align-items:center; justify-content:center;">
                         <span style="color:var(--text-muted); font-size:3rem;">⚡</span>
                     </div>
@@ -46,24 +46,24 @@
 
             <div class="col-md-7">
                 <p style="color:var(--accent); font-size:0.75rem; letter-spacing:2px; text-transform:uppercase;"
-                   th:text="${product.category.name}"><!-- Product.category holds a Location, see Product.java -->
+                   th:text="${pkg.location.name}">
                 </p>
 
                 <h1 style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:2.5rem; color:var(--text); margin-top:0.5rem;"
-                    th:text="${product.name}">
-                    Product
+                    th:text="${pkg.name}">
+                    Package
                 </h1>
 
                 <p style="color:var(--text-muted); margin-top:1rem; line-height:1.8;"
-                   th:text="${product.description}">
+                   th:text="${pkg.description}">
                 </p>
 
                 <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border);">
                     <p class="product-card-price" style="font-size:2rem;"
-                       th:text="${product.price} + ' €'">
+                       th:text="${pkg.price} + ' €'">
                     </p>
                     <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.25rem;"
-                       th:text="'In stock: ' + ${product.stockQuantity} + ' pcs'">
+                       th:text="'Availability: ' + ${pkg.stockQuantity} + ' slots'">
                     </p>
                 </div>
 
@@ -75,21 +75,21 @@
                            class="form-control"
                            value="1"
                            min="1"
-                           th:max="${product.stockQuantity}"
+                           th:max="${pkg.stockQuantity}"
                            style="width:90px;"/>
                     </label>
                     <button class="btn-accent px-4 py-2"
                             style="border:none; cursor:pointer; font-size:1rem;"
-                            th:onclick="'addToCart(' + ${product.id} + ')'">
+                            th:onclick="'addToCart(' + ${pkg.id} + ')'">
                         Add to Cart
                     </button>
                 </div>
 
                 <div id="cartMessage" class="mt-3"></div>
 
-                <a th:href="@{/products}"
+                <a th:href="@{/packages}"
                    style="display:inline-block; margin-top:1.5rem; color:var(--text-muted); text-decoration:none; font-size:0.85rem; letter-spacing:1px;">
-                    ← Back to Products
+                    ← Back to Packages
                 </a>
             </div>
         </div>

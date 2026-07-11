@@ -1,6 +1,6 @@
 package hr.algebra.ledvision.controller.mvc;
 
-import hr.algebra.ledvision.model.Product;
+import hr.algebra.ledvision.model.AdSpacePackage;
 import hr.algebra.ledvision.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +23,16 @@ public class CartViewController {
     @GetMapping
     public String cart(HttpSession session, Model model) {
         Map<Long, Integer> cart = getOrCreateCart(session);
-        Map<Product, Integer> cartItems = cartService.getCartItems(cart);
+        Map<AdSpacePackage, Integer> cartItems = cartService.getCartItems(cart);
 
         model.addAttribute("cartItems", cartService.getCartItems(cart));
         model.addAttribute("cartTotal", cartService.getCartTotal(cart));
         model.addAttribute("cartCount", cartService.getCartItemCount(cart));
 
         Map<Long, BigDecimal> itemTotals = new HashMap<>();
-        cartItems.forEach((product, quantity) ->
-                itemTotals.put(product.getId(),
-                        cartService.getItemTotal(product, quantity))
+        cartItems.forEach((adSpacePackage, quantity) ->
+                itemTotals.put(adSpacePackage.getId(),
+                        cartService.getItemTotal(adSpacePackage, quantity))
         );
         model.addAttribute("itemTotals", itemTotals);
 

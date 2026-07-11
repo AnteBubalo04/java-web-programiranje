@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/head :: head('Admin - Product')}">
+<head th:replace="~{fragments/head :: head('Admin - Package')}">
    <title>Talaria</title>
 </head>
 
@@ -13,19 +13,19 @@
         <div class="col-md-7">
             <div class="auth-card">
                 <h2 class="auth-title"
-                    th:text="${product.id != null} ? 'EDIT PRODUCT' : 'NEW PRODUCT'">
-                    Product
+                    th:text="${pkg.id != null} ? 'EDIT PACKAGE' : 'NEW PACKAGE'">
+                    Package
                 </h2>
 
-                <form th:action="@{/admin/products/save}" method="post">
-                    <input type="hidden" name="id" th:value="${product.id}"/>
+                <form th:action="@{/admin/packages/save}" method="post">
+                    <input type="hidden" name="id" th:value="${pkg.id}"/>
 
                     <div class="mb-4">
                         <label class="form-label">Name
                         <input type="text"
                                name="name"
                                class="form-control"
-                               th:value="${product.name}"
+                               th:value="${pkg.name}"
                                required/>
                         </label>
                     </div>
@@ -35,7 +35,7 @@
                         <textarea name="description"
                                   class="form-control"
                                   rows="3"
-                                  th:text="${product.description}">
+                                  th:text="${pkg.description}">
                         </textarea>
                         </label>
                     </div>
@@ -48,7 +48,7 @@
                                    class="form-control"
                                    step="0.01"
                                    min="0"
-                                   th:value="${product.price}"
+                                   th:value="${pkg.price}"
                                    required/>
                             </label>
                         </div>
@@ -58,7 +58,7 @@
                                    name="stockQuantity"
                                    class="form-control"
                                    min="0"
-                                   th:value="${product.stockQuantity}"
+                                   th:value="${pkg.stockQuantity}"
                                    required/>
                             </label>
                         </div>
@@ -70,7 +70,7 @@
                                name="imageUrl"
                                class="form-control"
                                placeholder="https://..."
-                               th:value="${product.imageUrl}"/>
+                               th:value="${pkg.imageUrl}"/>
                         </label>
                     </div>
 
@@ -80,7 +80,7 @@
                             <option th:each="location : ${locations}"
                                     th:value="${location.id}"
                                     th:text="${location.name}"
-                                    th:selected="${product.category != null and product.category.id == location.id}">
+                                    th:selected="${pkg.location != null and pkg.location.id == location.id}">
                             </option>
                         </select>
                         </label>

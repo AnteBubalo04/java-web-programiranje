@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class AdSpacePackageDto {
     private Long id;
     private String name;
     private String description;
     private BigDecimal price;
     private Integer stockQuantity;
     private String imageUrl;
-    private Long categoryId;
-    private String categoryName;
+    private Long locationId;
+    private String locationName;
 }

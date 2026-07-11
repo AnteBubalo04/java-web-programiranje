@@ -18,9 +18,9 @@
          style="text-align:center; padding:4rem 0;">
         <p style="font-size:3rem;">🛒</p>
         <p style="color:var(--text-muted); font-size:1.1rem;">Your cart is empty</p>
-        <a th:href="@{/products}" class="btn-accent mt-3"
+        <a th:href="@{/packages}" class="btn-accent mt-3"
            style="display:inline-block; padding:0.6rem 1.5rem; text-decoration:none;">
-            Browse Products
+            Browse Packages
         </a>
     </div>
 
@@ -55,7 +55,7 @@
                             <p style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.1rem; margin:0;"
                                th:text="${entry.key.name}"></p>
                             <p style="color:var(--text-muted); font-size:0.8rem; margin:0;"
-                               th:text="${entry.key.category.name}"></p>
+                               th:text="${entry.key.location.name}"></p>
                         </div>
                     </div>
 
@@ -99,7 +99,7 @@
                    th:text="${#numbers.formatDecimal(cartTotal, 1, 2)} + ' €'"></p>
 
                 <div class="d-flex gap-2 justify-content-end mt-3">
-                    <a th:href="@{/products}" class="btn-outline-accent"
+                    <a th:href="@{/packages}" class="btn-outline-accent"
                        style="padding:0.6rem 1.2rem; text-decoration:none;">
                         ← Continue Shopping
                     </a>

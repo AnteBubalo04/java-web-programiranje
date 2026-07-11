@@ -23,7 +23,7 @@
                     Premium electric motorcycles and original parts for demanding riders.
                 </p>
                 <div class="mt-4 d-flex gap-3 flex-wrap">
-                    <a th:href="@{/products}" class="btn-accent">Explore Products</a>
+                    <a th:href="@{/packages}" class="btn-accent">Explore Products</a>
                     <a th:href="@{/auth/register}"
                        class="btn-outline-accent"
                        sec:authorize="isAnonymous()">
@@ -47,7 +47,7 @@
     <h2 class="section-title">Browse by <span>Location</span></h2>
     <div class="row g-4 mt-1">
         <div th:each="location : ${locations}" class="col-md-4 col-sm-6">
-            <a th:href="@{/products(locationId=${location.id})}"
+            <a th:href="@{/packages(locationId=${location.id})}"
                class="category-card-link">
                 <div class="category-card">
                     <div class="category-card-img">
@@ -72,35 +72,35 @@
 
 
 <section class="container section-gap"
-         th:if="${products != null and !#lists.isEmpty(products)}">
-    <h2 class="section-title">Featured <span>Products</span></h2>
+         th:if="${packages != null and !#lists.isEmpty(packages)}">
+    <h2 class="section-title">Featured <span>Packages</span></h2>
     <div class="row g-4">
-        <div th:each="product : ${products}" class="col-md-4 col-sm-6">
+        <div th:each="pkg : ${packages}" class="col-md-4 col-sm-6">
             <div class="product-card h-100">
                 <div class="product-card-img-wrap">
-                    <img th:src="${product.imageUrl}"
-                         th:if="${product.imageUrl != null}"
+                    <img th:src="${pkg.imageUrl}"
+                         th:if="${pkg.imageUrl != null}"
                          class="product-card-img" alt=""/>
-                    <div th:if="${product.imageUrl == null}"
+                    <div th:if="${pkg.imageUrl == null}"
                          class="product-card-img-placeholder">⚡</div>
                 </div>
                 <div class="product-card-body">
                     <p class="product-card-category"
-                       th:text="${product.category.name}"><!-- Product.category holds a Location, see Product.java --></p>
+                       th:text="${pkg.location.name}"></p>
                     <h5 class="product-card-title"
-                        th:text="${product.name}">
-                        Product
+                        th:text="${pkg.name}">
+                        Package
                     </h5>
                     <p class="product-card-desc"
-                       th:text="${product.description}"></p>
+                       th:text="${pkg.description}"></p>
                     <p class="product-card-price"
-                       th:text="${product.price} + ' €'"></p>
+                       th:text="${pkg.price} + ' €'"></p>
                 </div>
                 <div class="product-card-footer">
-                    <a th:href="@{/products/{id}(id=${product.id})}"
+                    <a th:href="@{/packages/{id}(id=${pkg.id})}"
                        class="btn-accent d-block text-center"
                        style="text-decoration:none;">
-                        View Product →
+                        View Package →
                     </a>
                 </div>
             </div>

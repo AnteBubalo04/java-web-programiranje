@@ -47,9 +47,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/cart/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET,
-                                "/api/products/**").permitAll()
+                                "/api/packages/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET,
-                                "/api/category/**").permitAll()
+                                "/api/locations/**").permitAll()
                         .anyRequest().authenticated()
 
 
@@ -69,10 +69,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
-                                "/products",
-                                "/products/**",
-                                "/categories",
-                                "/categories/**",
+                                "/packages",
+                                "/packages/**",
+                                "/locations",
+                                "/locations/**",
                                 "/cart/**",
                                 "/auth/**",
                                 "/css/**",
