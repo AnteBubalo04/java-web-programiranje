@@ -87,7 +87,7 @@
                             aria-label="Order status"
                             style="font-size:0.75rem; padding:0.2rem;"
                             onchange="this.form.submit()">
-                        <option th:each="status : ${T(hr.algebra.talaria.model.Order.OrderStatus).values()}"
+                        <option th:each="status : ${T(hr.algebra.ledvision.model.Order.OrderStatus).values()}"
                                 th:value="${status}"
                                 th:text="${status}"
                                 th:selected="${order.status == status}">

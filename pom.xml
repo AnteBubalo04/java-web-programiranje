@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hr.algebra</groupId>
-    <artifactId>Talaria</artifactId>
+    <artifactId>LedVision</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Talaria</name>
-    <description>Talaria</description>
+    <name>LedVision</name>
+    <description>LedVision - Zagreb LED ad-space reservation platform</description>
     <url/>
     <licenses>
         <license/>
