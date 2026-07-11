@@ -64,11 +64,9 @@
                         font-size:0.75rem;
                         letter-spacing:1px;
                         text-transform:uppercase;">
-                <div class="col-md-4">Name</div>
-                <div class="col-md-3">Location</div>
-                <div class="col-md-2">Price</div>
-                <div class="col-md-2">In Stock</div>
-                <div class="col-md-1"></div>
+                <div class="col-md-5">Name</div>
+                <div class="col-md-5">Location</div>
+                <div class="col-md-2"></div>
             </div>
 
             <div th:if="${#lists.isEmpty(packages)}"
@@ -80,23 +78,15 @@
             <div th:each="pkg : ${packages}"
                  class="row py-3 px-4 align-items-center"
                  style="border-bottom:1px solid var(--border);">
-                <div class="col-md-4"
+                <div class="col-md-5"
                      style="font-family:'Rajdhani',sans-serif; font-weight:700;"
                      th:text="${pkg.name}">
                 </div>
-                <div class="col-md-3"
+                <div class="col-md-5"
                      style="color:var(--text-muted); font-size:0.9rem;"
                      th:text="${pkg.location.name}">
                 </div>
-                <div class="col-md-2"
-                     style="color:var(--accent); font-family:'Rajdhani',sans-serif;"
-                     th:text="${pkg.price} + ' €'">
-                </div>
-                <div class="col-md-2"
-                     style="color:var(--text-muted);"
-                     th:text="${pkg.stockQuantity} + ' pcs'">
-                </div>
-                <div class="col-md-1 d-flex gap-2">
+                <div class="col-md-2 d-flex gap-2">
                     <a th:href="@{/admin/packages/edit/{id}(id=${pkg.id})}"
                        style="color:var(--text-muted); text-decoration:none; font-size:0.85rem;">✎</a>
                     <form th:action="@{/admin/packages/delete/{id}(id=${pkg.id})}"

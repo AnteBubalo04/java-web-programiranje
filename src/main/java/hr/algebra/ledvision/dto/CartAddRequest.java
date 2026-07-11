@@ -1,3 +1,3 @@
 package hr.algebra.ledvision.dto;
 
-public record CartAddRequest(Long packageId, Integer quantity) {}
+public record CartAddRequest(Long tierId, Integer quantity) {}

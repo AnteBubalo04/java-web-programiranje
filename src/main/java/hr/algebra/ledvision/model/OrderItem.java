@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 
+// A single reservation line: "this many units of that PricingTier, at the price
+// it had when purchased". priceAtPurchase is snapshotted from the tier at order
+// time so later tier price changes don't retroactively change past orders -
+// same reasoning the original Product-based version already had.
 @Entity
 @Table(name = "order_items")
 @Data
@@ -21,13 +25,9 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    // NOTE: keeps the "product" name/column for now (type already swapped to
-    // AdSpacePackage) - becomes "pricingTier" once PricingTier exists, see
-    // PLAN.md Phase 4.3, at which point a reservation references a specific
-    // priced tier of a package instead of the package directly.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    private AdSpacePackage product;
+    private PricingTier pricingTier;
 
     @Column(nullable = false)
     private Integer quantity;

@@ -1,7 +1,7 @@
 package hr.algebra.ledvision.service;
 
-import hr.algebra.ledvision.model.AdSpacePackage;
-import hr.algebra.ledvision.repository.AdSpacePackageRepository;
+import hr.algebra.ledvision.model.PricingTier;
+import hr.algebra.ledvision.repository.PricingTierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,33 +10,34 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-// The session cart is still a plain Map<packageId, quantity>, same shape as the
-// original Map<productId, quantity>. This gets reworked to key by PricingTier
-// instead of package once pricing tiers exist (see PLAN.md Phase 4.3) - for now,
-// "quantity" limited by stockQuantity mirrors the original stock-check behaviour.
+// The session cart is a plain Map<tierId, quantity> - "quantity" means how many
+// units of that tier's duration/size are being reserved (e.g. 2x "1 month" tier
+// = 2 consecutive months), not a physical stock count. There is deliberately no
+// calendar/overlap availability check here - see PLAN.md for why that's out of
+// scope for this refactor.
 @Service
 @RequiredArgsConstructor
 public class CartService {
 
-    private final AdSpacePackageRepository packageRepository;
+    private final PricingTierRepository tierRepository;
 
-    public void addToCart(Map<Long, Integer> cart, Long packageId, int quantity) {
-        packageRepository.findById(packageId).ifPresent(adSpacePackage -> {
-            if (adSpacePackage.isActive() && adSpacePackage.getStockQuantity() >= quantity) {
-                cart.merge(packageId, quantity, Integer::sum);
+    public void addToCart(Map<Long, Integer> cart, Long tierId, int quantity) {
+        tierRepository.findById(tierId).ifPresent(tier -> {
+            if (quantity > 0) {
+                cart.merge(tierId, quantity, Integer::sum);
             }
         });
     }
 
-    public void removeFromCart(Map<Long, Integer> cart, Long packageId) {
-        cart.remove(packageId);
+    public void removeFromCart(Map<Long, Integer> cart, Long tierId) {
+        cart.remove(tierId);
     }
 
-    public void updateQuantity(Map<Long, Integer> cart, Long packageId, int quantity) {
+    public void updateQuantity(Map<Long, Integer> cart, Long tierId, int quantity) {
         if (quantity <= 0) {
-            cart.remove(packageId);
+            cart.remove(tierId);
         } else {
-            cart.put(packageId, quantity);
+            cart.put(tierId, quantity);
         }
     }
 
@@ -45,19 +46,19 @@ public class CartService {
     }
 
 
-    public Map<AdSpacePackage, Integer> getCartItems(Map<Long, Integer> cart) {
+    public Map<PricingTier, Integer> getCartItems(Map<Long, Integer> cart) {
         if (cart.isEmpty()) return Collections.emptyMap();
 
-        Map<AdSpacePackage, Integer> items = new HashMap<>();
-        cart.forEach((packageId, quantity) ->
-                packageRepository.findByIdWithLocation(packageId)
-                        .ifPresent(adSpacePackage -> items.put(adSpacePackage, quantity))
+        Map<PricingTier, Integer> items = new HashMap<>();
+        cart.forEach((tierId, quantity) ->
+                tierRepository.findByIdWithPackageAndLocation(tierId)
+                        .ifPresent(tier -> items.put(tier, quantity))
         );
         return items;
     }
 
-    public BigDecimal getItemTotal(AdSpacePackage adSpacePackage, Integer quantity) {
-        return adSpacePackage.getPrice().multiply(BigDecimal.valueOf(quantity));
+    public BigDecimal getItemTotal(PricingTier tier, Integer quantity) {
+        return tier.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 
     public BigDecimal getCartTotal(Map<Long, Integer> cart) {

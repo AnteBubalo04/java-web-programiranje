@@ -50,6 +50,8 @@ public class SecurityConfig {
                                 "/api/packages/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET,
                                 "/api/locations/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET,
+                                "/api/tiers/**").permitAll()
                         .anyRequest().authenticated()
 
 

@@ -18,7 +18,7 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final AdSpacePackageRepository packageRepository;
+    private final PricingTierRepository tierRepository;
     private final UserRepository userRepository;
 
 
@@ -49,28 +49,20 @@ public class OrderService {
         BigDecimal total = BigDecimal.ZERO;
 
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
-            AdSpacePackage adSpacePackage = packageRepository.findById(entry.getKey())
-                    .orElseThrow(() -> new IllegalArgumentException("Package not found!"));
-
-            if (adSpacePackage.getStockQuantity() < entry.getValue()) {
-                throw new IllegalArgumentException(
-                        "No availability left: " + adSpacePackage.getName());
-            }
+            PricingTier tier = tierRepository.findById(entry.getKey())
+                    .orElseThrow(() -> new IllegalArgumentException("Pricing tier not found!"));
 
             OrderItem item = new OrderItem();
             item.setOrder(order);
-            item.setProduct(adSpacePackage);
+            item.setPricingTier(tier);
             item.setQuantity(entry.getValue());
-            item.setPriceAtPurchase(adSpacePackage.getPrice());
+            item.setPriceAtPurchase(tier.getPrice());
 
             order.getItems().add(item);
 
             total = total.add(
-                    adSpacePackage.getPrice().multiply(BigDecimal.valueOf(entry.getValue()))
+                    tier.getPrice().multiply(BigDecimal.valueOf(entry.getValue()))
             );
-
-            adSpacePackage.setStockQuantity(adSpacePackage.getStockQuantity() - entry.getValue());
-            packageRepository.save(adSpacePackage);
         }
 
         order.setTotalPrice(total);

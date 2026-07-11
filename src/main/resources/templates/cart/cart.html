@@ -35,27 +35,27 @@
                         font-size:0.75rem;
                         letter-spacing:1px;
                         text-transform:uppercase;">
-                <div class="col-md-6">Product</div>
+                <div class="col-md-6">Package</div>
                 <div class="col-md-2 text-center">Price</div>
                 <div class="col-md-2 text-center">Quantity</div>
                 <div class="col-md-2 text-center">Total</div>
             </div>
 
-            <!-- Items -->
+            <!-- Items - entry.key is a PricingTier, entry.value is the quantity -->
             <div th:each="entry : ${cartItems}">
                 <div class="row py-4 px-4 align-items-center"
                      style="border-bottom:1px solid var(--border);">
 
                     <div class="col-md-6 d-flex align-items-center gap-3">
-                        <img th:src="${entry.key.imageUrl}"
-                             th:if="${entry.key.imageUrl != null}"
+                        <img th:src="${entry.key.adSpacePackage.imageUrl}"
+                             th:if="${entry.key.adSpacePackage.imageUrl != null}"
                              style="width:70px; height:70px; object-fit:cover; filter:grayscale(20%);"
                              alt=""/>
                         <div>
                             <p style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.1rem; margin:0;"
-                               th:text="${entry.key.name}"></p>
+                               th:text="${entry.key.adSpacePackage.name} + ' — ' + ${entry.key.durationLabel} + ' / ' + ${entry.key.sizeLabel}"></p>
                             <p style="color:var(--text-muted); font-size:0.8rem; margin:0;"
-                               th:text="${entry.key.location.name}"></p>
+                               th:text="${entry.key.adSpacePackage.location.name}"></p>
                         </div>
                     </div>
 

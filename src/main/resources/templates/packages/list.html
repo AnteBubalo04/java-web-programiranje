@@ -82,8 +82,6 @@
                     </h5>
                     <p class="product-card-desc"
                        th:text="${pkg.description}"></p>
-                    <p class="product-card-price"
-                       th:text="${pkg.price} + ' €'"></p>
                 </div>
                 <div class="product-card-footer">
                     <a th:href="@{/packages/{id}(id=${pkg.id})}"

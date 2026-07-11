@@ -13,8 +13,6 @@ public class AdSpacePackageMapper {
                 p.getId(),
                 p.getName(),
                 p.getDescription(),
-                p.getPrice(),
-                p.getStockQuantity(),
                 p.getImageUrl(),
                 p.getLocation() != null ? p.getLocation().getId() : null,
                 p.getLocation() != null ? p.getLocation().getName() : null
@@ -25,8 +23,6 @@ public class AdSpacePackageMapper {
         AdSpacePackage p = new AdSpacePackage();
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
-        p.setPrice(dto.getPrice());
-        p.setStockQuantity(dto.getStockQuantity());
         p.setImageUrl(dto.getImageUrl());
         return p;
     }

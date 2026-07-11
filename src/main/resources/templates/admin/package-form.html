@@ -40,30 +40,6 @@
                         </label>
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Price (€)
-                            <input type="number"
-                                   name="price"
-                                   class="form-control"
-                                   step="0.01"
-                                   min="0"
-                                   th:value="${pkg.price}"
-                                   required/>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Stock Quantity
-                            <input type="number"
-                                   name="stockQuantity"
-                                   class="form-control"
-                                   min="0"
-                                   th:value="${pkg.stockQuantity}"
-                                   required/>
-                            </label>
-                        </div>
-                    </div>
-
                     <div class="mb-4">
                         <label class="form-label">Image URL
                         <input type="text"
@@ -99,6 +75,39 @@
                         </a>
                     </div>
                 </form>
+
+                <!-- Pricing tiers only make sense once the package already has an id
+                     (a tier must belong to a saved package) - save the package first,
+                     then come back here to add tiers. -->
+                <div th:if="${pkg.id != null}" style="border-top:1px solid var(--border); margin-top:2rem; padding-top:1.5rem;">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 style="font-family:'Rajdhani',sans-serif; font-weight:700; margin:0;">Pricing Tiers</h4>
+                        <a th:href="@{/admin/packages/{id}/tiers/new(id=${pkg.id})}"
+                           class="btn-accent" style="padding:0.3rem 0.8rem; text-decoration:none; font-size:0.85rem;">
+                            + New Tier
+                        </a>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(tiers)}" style="color:var(--text-muted);">
+                        No pricing tiers yet.
+                    </div>
+
+                    <div th:each="tier : ${tiers}"
+                         class="d-flex justify-content-between align-items-center py-2"
+                         style="border-bottom:1px solid var(--border);">
+                        <span th:text="${tier.durationLabel} + ' · ' + ${tier.sizeLabel} + ' · ' + ${tier.price} + ' €'"></span>
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/admin/tiers/edit/{id}(id=${tier.id})}"
+                               style="color:var(--text-muted); text-decoration:none; font-size:0.85rem;">✎</a>
+                            <form th:action="@{/admin/tiers/delete/{id}(id=${tier.id})}" method="post"
+                                  onsubmit="return confirm('Delete this pricing tier?')">
+                                <input type="hidden" name="packageId" th:value="${pkg.id}"/>
+                                <button type="submit"
+                                        style="background:none; border:none; color:#ff6666; cursor:pointer; font-size:0.85rem;">×</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

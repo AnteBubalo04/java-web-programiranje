@@ -1,11 +1,11 @@
-async function addToCart(packageId) {
-    const quantity = document.getElementById('quantity').value;
+async function addToCart(tierId, quantityInputId = 'quantity') {
+    const quantity = document.getElementById(quantityInputId).value;
 
     const response = await fetch('/api/cart/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            packageId: packageId,
+            tierId: tierId,
             quantity: Number.parseInt(quantity)
         })
     });
@@ -19,19 +19,19 @@ async function addToCart(packageId) {
     }
 }
 
-async function removeFromCart(packageId) {
-    const response = await fetch(`/api/cart/remove/${packageId}`, {
+async function removeFromCart(tierId) {
+    const response = await fetch(`/api/cart/remove/${tierId}`, {
         method: 'DELETE'
     });
     if (response.ok) location.reload();
 }
 
-async function updateQuantity(packageId, quantity) {
+async function updateQuantity(tierId, quantity) {
     if (quantity <= 0) {
-        await removeFromCart(packageId);
+        await removeFromCart(tierId);
         return;
     }
-    const response = await fetch(`/api/cart/update/${packageId}`, {
+    const response = await fetch(`/api/cart/update/${tierId}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({quantity: quantity})

@@ -76,8 +76,6 @@ public class AdSpacePackageApiController {
                 .map(adSpacePackage -> {
                     adSpacePackage.setName(dto.getName());
                     adSpacePackage.setDescription(dto.getDescription());
-                    adSpacePackage.setPrice(dto.getPrice());
-                    adSpacePackage.setStockQuantity(dto.getStockQuantity());
                     adSpacePackage.setImageUrl(dto.getImageUrl());
                     packageService.getLocationById(dto.getLocationId())
                             .ifPresent(adSpacePackage::setLocation);

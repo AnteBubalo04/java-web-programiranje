@@ -109,7 +109,7 @@ Do tada radim isključivo s `mvnw clean compile` koji ne treba bazu.
 ## FAZA 4 — PricingTier (nova cjenovna struktura)
 
 ### Korak 4.1 — Dodaj PricingTier entitet (aditivno, ništa se ne briše)
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo
 **Fajlovi (novi):** `model/PricingTier.java`, `repository/PricingTierRepository.java`, `dto/PricingTierDto.java`, `mapper/PricingTierMapper.java`, `service/PricingTierService.java`
 
 **Polja PricingTier:**
@@ -121,12 +121,14 @@ sizeLabel (String, npr. "Mali ekran (2m²)"/"Veliki ekran (6m²)"), price (BigDe
 **Provjera:** `mvnw clean compile`
 
 ### Korak 4.2 — Admin CRUD za tier-ove
-**Status:** ⏳ čeka
+**Status:** ✅ gotovo
 **Fajlovi:** novi endpoint-i u `AdminViewController` (`/admin/packages/{packageId}/tiers/new`, `/save`, `/delete/{id}`), nova forma `admin/tier-form.html`, prikaz liste tier-ova na `admin/product-form.html` (edit paketa prikazuje i njegove tier-ove ispod)
 **Provjera:** `mvnw clean compile`
 
 ### Korak 4.3 — CUTOVER: ukloni `price`/`stockQuantity` s AdSpacePackage; Cart i Order rade preko tier-a
 **Status:** ⏳ čeka
+**Status:** ✅ gotovo
+
 **Ovo je najveći i najrizičniji korak** — mora ići u jednom commitu jer cijeli lanac (cart → checkout → order) mora ostati konzistentan.
 
 **Fajlovi:**
