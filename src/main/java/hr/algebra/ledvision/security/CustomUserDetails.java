@@ -12,7 +12,13 @@ import java.util.List;
 @Getter
 public class CustomUserDetails implements UserDetails {
 
-    private final transient User user;
+    // NOTE: must NOT be transient. UserDetails extends Serializable, and Spring
+    // Boot DevTools restarts trigger Tomcat to persist/restore active sessions
+    // (including the SecurityContext's principal) across the restart - a
+    // transient field gets silently dropped in that round-trip, leaving this
+    // object with a null user and crashing every request that reuses the
+    // session (see the NullPointerException in getUsername() below).
+    private final User user;
 
     public CustomUserDetails(User user) {
         this.user = user;

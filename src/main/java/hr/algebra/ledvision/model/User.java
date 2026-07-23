@@ -5,14 +5,19 @@ import lombok.Data;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
+// Implements Serializable because CustomUserDetails (which wraps a User as the
+// Spring Security principal) ends up stored in the HTTP session, and
+// UserDetails itself extends Serializable - without this, session persistence
+// (e.g. across a DevTools restart) would silently drop or fail to restore it.
 @Entity
 @Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
