@@ -17,19 +17,21 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT DISTINCT o FROM Order o " +
             "JOIN FETCH o.user " +
             "LEFT JOIN FETCH o.items i "+
-            "LEFT JOIN FETCH i.product p "+
-            "LEFT JOIN FETCH p.category WHERE o.id = :id")
+            "LEFT JOIN FETCH i.pricingTier t "+
+            "LEFT JOIN FETCH t.adSpacePackage p "+
+            "LEFT JOIN FETCH p.location WHERE o.id = :id")
     Optional<Order> findByIdWithItems(@Param("id") Long id);
 
     @Query("SELECT DISTINCT o FROM Order o " +
             "JOIN FETCH o.user " +
             "LEFT JOIN FETCH o.items i " +
-            "LEFT JOIN FETCH i.product p " +
-            "LEFT JOIN FETCH p.category " +
+            "LEFT JOIN FETCH i.pricingTier t " +
+            "LEFT JOIN FETCH t.adSpacePackage p " +
+            "LEFT JOIN FETCH p.location " +
             "WHERE o.user.id = :userId " +
             "ORDER BY o.createdAt DESC")
     List<Order> findByUserIdWithItemsOrderByCreatedAtDesc(@Param("userId") Long userId);
 
-    @Query("SELECT DISTINCT o FROM Order o JOIN FETCH o.user LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.product p LEFT JOIN FETCH p.category ORDER BY o.createdAt DESC")
+    @Query("SELECT DISTINCT o FROM Order o JOIN FETCH o.user LEFT JOIN FETCH o.items i LEFT JOIN FETCH i.pricingTier t LEFT JOIN FETCH t.adSpacePackage p LEFT JOIN FETCH p.location ORDER BY o.createdAt DESC")
     List<Order> findAllWithUserOrderByCreatedAtDesc();
 }
