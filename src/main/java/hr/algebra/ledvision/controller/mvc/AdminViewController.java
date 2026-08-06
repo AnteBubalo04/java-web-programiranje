@@ -4,6 +4,7 @@ import hr.algebra.ledvision.model.AdSpacePackage;
 import hr.algebra.ledvision.model.Location;
 import hr.algebra.ledvision.model.Order;
 import hr.algebra.ledvision.repository.LoginHistoryRepository;
+import hr.algebra.ledvision.repository.UserRepository;
 import hr.algebra.ledvision.service.AdExampleService;
 import hr.algebra.ledvision.service.AdSpacePackageService;
 import hr.algebra.ledvision.service.OrderService;
@@ -13,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 // Dashboard, Location CRUD, AdSpacePackage CRUD, order management and login
 // history. PricingTier/AdExample CRUD (both scoped to a single package) live
@@ -29,6 +32,7 @@ public class AdminViewController {
     private final AdExampleService exampleService;
     private final LoginHistoryRepository loginHistoryRepository;
     private final OrderService orderService;
+    private final UserRepository userRepository;
 
     private static final String LOCATION_VIEW = "location";
     private static final String PACKAGE_VIEW = "pkg";
@@ -125,8 +129,19 @@ public class AdminViewController {
 
 
     @GetMapping("/orders")
-    public String orders(Model model) {
-        model.addAttribute(ORDERS_VIEW, orderService.getAllOrders());
+    public String orders(@RequestParam(required = false) Long userId,
+                         @RequestParam(required = false) LocalDate from,
+                         @RequestParam(required = false) LocalDate to,
+                         Model model) {
+
+        model.addAttribute(ORDERS_VIEW, orderService.getOrdersFiltered(userId,
+                from != null ? from.atStartOfDay() : null,
+                to != null ? to.atTime(23, 59, 59) : null));
+
+        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("selectedUserId", userId);
+        model.addAttribute("selectedFrom", from);
+        model.addAttribute("selectedTo", to);
         return "admin/orders";
     }
 

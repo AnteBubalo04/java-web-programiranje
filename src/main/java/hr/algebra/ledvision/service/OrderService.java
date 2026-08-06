@@ -89,6 +89,19 @@ public class OrderService {
         return orderRepository.findAllWithUserOrderByCreatedAtDesc();
     }
 
+    public List<Order> getOrdersFiltered(Long userId, LocalDateTime from, LocalDateTime to) {
+        if (userId != null && from != null && to != null) {
+            return orderRepository.findByUserIdAndCreatedAtBetween(userId, from, to);
+        }
+        if (from != null && to != null) {
+            return orderRepository.findByCreatedAtBetween(from, to);
+        }
+        if (userId != null) {
+            return orderRepository.findByUserIdWithItemsOrderByCreatedAtDesc(userId);
+        }
+        return getAllOrders();
+    }
+
 
     @Transactional
     public void updateOrderStatus(Long orderId, Order.OrderStatus status) {

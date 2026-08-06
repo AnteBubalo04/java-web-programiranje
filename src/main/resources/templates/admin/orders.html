@@ -18,6 +18,36 @@
         </a>
     </div>
 
+    <form th:action="@{/admin/orders}" method="get" class="row g-2 mb-4 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label">Customer
+            <select name="userId" class="form-control">
+                <option value="">All customers</option>
+                <option th:each="u : ${users}"
+                        th:value="${u.id}"
+                        th:text="${u.username}"
+                        th:selected="${selectedUserId != null and selectedUserId == u.id}">
+                </option>
+            </select>
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">From
+            <input type="date" name="from" class="form-control" th:value="${selectedFrom}"/>
+            </label>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">To
+            <input type="date" name="to" class="form-control" th:value="${selectedTo}"/>
+            </label>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn-accent w-100" style="border:none; cursor:pointer; padding:0.5rem;">
+                Filter
+            </button>
+        </div>
+    </form>
+
     <div style="border:1px solid var(--border);">
 
         <!-- Header -->

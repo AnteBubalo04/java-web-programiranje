@@ -11,8 +11,28 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByUserIdAndCreatedAtBetween(Long userId, LocalDateTime from, LocalDateTime to);
-    List<Order> findByCreatedAtBetween(LocalDateTime from, LocalDateTime to);
+
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "JOIN FETCH o.user " +
+            "LEFT JOIN FETCH o.items i " +
+            "LEFT JOIN FETCH i.pricingTier t " +
+            "LEFT JOIN FETCH t.adSpacePackage p " +
+            "LEFT JOIN FETCH p.location " +
+            "WHERE o.user.id = :userId AND o.createdAt BETWEEN :from AND :to " +
+            "ORDER BY o.createdAt DESC")
+    List<Order> findByUserIdAndCreatedAtBetween(@Param("userId") Long userId,
+                                                @Param("from") LocalDateTime from,
+                                                @Param("to") LocalDateTime to);
+
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "JOIN FETCH o.user " +
+            "LEFT JOIN FETCH o.items i " +
+            "LEFT JOIN FETCH i.pricingTier t " +
+            "LEFT JOIN FETCH t.adSpacePackage p " +
+            "LEFT JOIN FETCH p.location " +
+            "WHERE o.createdAt BETWEEN :from AND :to " +
+            "ORDER BY o.createdAt DESC")
+    List<Order> findByCreatedAtBetween(@Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
 
     @Query("SELECT DISTINCT o FROM Order o " +
             "JOIN FETCH o.user " +
